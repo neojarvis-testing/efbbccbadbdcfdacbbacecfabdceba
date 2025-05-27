@@ -1,4 +1,7 @@
+package com.examly.springappuser.config;
 import java.beans.BeanProperty;
+
+import javax.management.RuntimeErrorException;
 
 @Configuration
 @EnableWebSecurity
@@ -22,14 +25,27 @@ public class SecurityConfig {
                     .anyRequest().authenticated()
                     )
                     .exceptionHandling(ex -> ex.authenticationEntryPoint(authenticationEntryPoint))
-                    .sessionManagement(session -> session.sessionCreationPolicy(sessionCreationPolicy.))
+                    .sessionManagement(session -> session.sessionCreationPolicy(sessionCreationPolicy.STATELESS))
                     .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(Authentication)
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config){
+        try{
+            return config.getAuthenticationManager();
+        }
+        catch(Exception e){
+            throw new RuntimeErrorException("Failed to get AuthenticationManager",e);
+
+        }
+    }
+
+    @Bean 
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
 
     
