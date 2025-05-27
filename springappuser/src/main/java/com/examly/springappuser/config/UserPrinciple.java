@@ -24,6 +24,13 @@ public class UserPrinciple implements UserDetails{
     @Override
     public boolean isAccountNonExpired() { return true;}
     @Override
-    
+    public boolean isAccountNonLocked() { return true; }
+    @Override
+    public boolean isCredentialsNonExpired() { return true; }
+    @Override
+    public boolean isEnabled() { return true; }
+    public User getUser() {
+        return user;
+    }
 
 }

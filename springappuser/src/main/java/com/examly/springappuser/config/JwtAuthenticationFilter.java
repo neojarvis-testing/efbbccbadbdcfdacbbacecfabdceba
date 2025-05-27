@@ -1,3 +1,5 @@
-public class JwtAuthenticationFilter {
+@Component
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
+    
     
 }
